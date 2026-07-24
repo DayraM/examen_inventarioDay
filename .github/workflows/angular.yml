@@ -1,0 +1,30 @@
+name: Angular CI
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar/Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+        
+      - name: Instalar Dependencias
+        run: npm install
+          
+      - name: Ejecutar pruebas
+        run: npm run test --run
+        
+      - name: Generar Build
+        run: npm run build
